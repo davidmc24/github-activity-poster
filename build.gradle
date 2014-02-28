@@ -1,4 +1,5 @@
 apply plugin: "ratpack-groovy"
+apply plugin: "idea"
 
 buildscript {
     repositories {
