@@ -1,5 +1,6 @@
 apply plugin: "ratpack-groovy"
 apply plugin: "idea"
+apply plugin: "project-report"
 
 buildscript {
     repositories {
@@ -18,7 +19,14 @@ repositories {
 }
 
 dependencies {
+    compile "org.codehaus.groovy:groovy-all:2.2.2"
+    compile "org.kohsuke:github-api:1.49"
+    compile "org.slf4j:slf4j-api:1.7.6"
+    compile "org.pegdown:pegdown:1.4.2"
+
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+
+    runtime "ch.qos.logback:logback-classic:1.1.1"
 
     // SpringLoaded enables runtime hot reloading.
     // It is not part of the app runtime and is not shipped in the distribution.
