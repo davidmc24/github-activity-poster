@@ -28,3 +28,7 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = "1.10"
 }
+
+task stage() {
+    dependsOn installApp
+}
