@@ -1,1 +1,1 @@
-web: build/install/ratpack/bin/ratpack
+web: build/install/github-activity-poster/bin/github-activity-poster
