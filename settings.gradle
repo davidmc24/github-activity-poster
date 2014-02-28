@@ -1,1 +1,1 @@
-rootProjectName = "github-activity-poster"
+rootProject.name = "github-activity-poster"
