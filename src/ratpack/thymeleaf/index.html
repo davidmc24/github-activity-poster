@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles/app.css"/>
+    <link href="components/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="components/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet"/>
+    <link href="components/month-polyfill/month-polyfill.css" rel="stylesheet"/>
+    <script src="components/modernizr/modernizr.js"></script>
+    <script src="components/jquery/dist/jquery.js"></script>
+    <script src="components/jquery-ui/ui/jquery-ui.js"></script>
+    <script src="components/month-polyfill/month-polyfill.js"></script>
+</head>
+<body>
+<form action="/" method="get">
+    <input type="month" name="month" th:value="${month}"/>
+    <input type="submit" value="Update"/>
+</form>
+<div th:each="project : ${report.sponsoredProjects}" class="project">
+    <p>
+        <a th:href="${project.homepage}? ${project.homepage} : ${project.url}" th:text="${project.name}">project-name</a>
+    </p>
+    <p>
+        <span th:text="${project.description}">Project description goes here.</span>
+    </p>
+    <p>Activity:
+        <span th:if="${project.commitPushedCount}" class="activityBlock" title="Commits pushed"><i class="fa fa-code"></i> <span th:text="${project.commitPushedCount}"/></span>
+        <span th:if="${project.commentCount}" class="activityBlock" title="Comments created"><i class="fa fa-comments"></i> <span th:text="${project.commentCount}"/></span>
+        <span th:if="${project.pullRequestOpenedCount || project.pullRequestClosedCount}" class="activityBlock" title="Pull requests opened/closed"><i class="fa fa-refresh"></i> <i class="fa fa-long-arrow-up"></i><span th:text="${project.pullRequestOpenedCount}"/> <i class="fa fa-long-arrow-down"></i><span th:text="${project.pullRequestClosedCount}"/></span>
+        <span th:if="${project.issuesOpenedCount || project.issuesClosedCount}" class="activityBlock" title="Issues opened/closed"><i class="fa fa-bug"></i> <i class="fa fa-long-arrow-up"></i><span th:text="${project.issuesOpenedCount}"/> <i class="fa fa-long-arrow-down"></i><span th:text="${project.issuesClosedCount}"/></span>
+    </p>
+    <p>
+        <em>
+            Contributors:
+                  <span th:each="contributor : ${project.contributors}">
+                      <a th:href="${contributor.url}" th:title="${contributor.displayName}"><img th:src="${contributor.avatarUrl}" class="avatar"/></a>
+                  </span>
+        </em>
+    </p>
+</div>
+</body>
+</html>
