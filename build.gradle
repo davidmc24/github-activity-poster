@@ -20,9 +20,11 @@ repositories {
 
 dependencies {
     compile "org.codehaus.groovy:groovy-all:2.2.2"
-    compile "org.kohsuke:github-api:1.49"
+//    compile "org.kohsuke:github-api:1.49"
     compile "org.slf4j:slf4j-api:1.7.6"
     compile "org.pegdown:pegdown:1.4.2"
+    compile "io.ratpack:ratpack-thymeleaf:0.9.1"
+    compile "org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5"
 
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
 

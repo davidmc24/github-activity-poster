@@ -4,3 +4,4 @@
 *.iws
 .idea/
 build/
+out/

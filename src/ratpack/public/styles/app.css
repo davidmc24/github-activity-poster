@@ -1,0 +1,17 @@
+.project {
+    border: thin solid black;
+    padding: 5px;
+    margin: 5px;
+}
+
+.avatar {
+    height: 48px;
+    width: 48px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+.activityBlock {
+    margin: 0 5px;
+}
