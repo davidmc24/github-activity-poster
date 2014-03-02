@@ -3,6 +3,13 @@ env:
   global:
   - TERM=dumb
 jdk:
-  - openjdk7
+- openjdk7
 install: true
 script: "./gradlew build"
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZLZw7eoAalQW5fZIl0oTCLSe40iriYXHnU4OHiZtfMe28De5CUesZfVz6rK5ME4HgzfzIsBVKUeYBZEojVSBE16VN6M+0reWROjtEqmcXqQobjxeGBW/tw8JnDRZU4w9BoG5664rIuAk/eJxT0+Ak0HBxXUH37u0RCyScqFnBYY=
+  app: github-activity-poster
+  on:
+    repo: davidmc24/github-activity-poster
