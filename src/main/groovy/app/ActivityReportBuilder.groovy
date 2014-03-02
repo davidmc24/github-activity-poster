@@ -1,6 +1,8 @@
 package app
 
 import groovy.util.logging.Slf4j
+import org.eclipse.egit.github.core.RepositoryId
+import org.eclipse.egit.github.core.client.RequestException
 import org.eclipse.egit.github.core.event.Event
 import org.eclipse.egit.github.core.service.EventService
 import org.eclipse.egit.github.core.service.OrganizationService
@@ -49,26 +51,55 @@ class ActivityReportBuilder {
 
     ActivityReport build() {
         // TODO: add support for external projects
-        def sponsoredProjects = []
+        def organizations = []
+        def projectsByOrganization = [:]
+        def externalProjectsById = [:]
         for (orgName in orgNames) {
-            def orgRepos = repositoryService.getOrgRepositories(orgName)
-//            def orgMembers = organizationService.getMembers(orgName)
+            def organizationProjects = []
             log.debug("processing org repo events for {}", orgName)
-            for (repo in orgRepos) {
+            def organizationRepos = repositoryService.getOrgRepositories(orgName)
+            for (repo in organizationRepos) {
                 log.debug("processing repo events for {}", repo.name)
                 def events = filterEvents(eventService.pageEvents(repo))
                 if (events) {
-                    sponsoredProjects << new SponsoredProjectActivity(repo, events, contributorLoader)
+                    def project = new ProjectActivity(repo)
+                    for (event in events) {
+                        project.addEvent(contributorLoader.get(event.actor), event)
+                    }
+                    organizationProjects << project
                 }
             }
-//            log.debug("processing org member events for {}", orgName)
-//            for (member in orgMembers) {
-//                log.debug("processing member events for {}", member.login)
-//                def events = filterEvents(eventService.pageUserEvents(member.login))
-                // TODO: create external projects
-//            }
+            def organization = new Organization(organizationService.getOrganization(orgName))
+            organizations << organization
+            projectsByOrganization[organization] = organizationProjects
+            def orgMembers = organizationService.getMembers(orgName)
+            log.debug("processing org member events for {}", orgName)
+            for (member in orgMembers) {
+                log.debug("processing member events for {}", member.login)
+                def events = filterEvents(eventService.pageUserEvents(member.login))
+                if (events) {
+                    def contributor = contributorLoader.get(member)
+                    for (event in events) {
+                        def repoId = repoIdFromEvent(event)
+                        if (repoId.owner in orgNames) {
+                            continue // if it's for an organization repo, it'll be covered there
+                        }
+                        def project = externalProjectsById[repoId.name] as ProjectActivity
+                        if (!project) {
+                            try {
+                                def repo = repositoryService.getRepository(repoId)
+                                project = new ProjectActivity(repo)
+                            } catch (RequestException ignored) {
+                                project = new ProjectActivity(repoId.name)
+                            }
+                            externalProjectsById[repoId.name] = project
+                        }
+                        project.addEvent(contributor, event)
+                    }
+                }
+            }
         }
-        return new ActivityReport(sponsoredProjects)
+        return new ActivityReport(organizations, projectsByOrganization, externalProjectsById.values().collect())
     }
 
     private List<Event> filterEvents(Iterator<Collection<Event>> pagedEvents) {
@@ -83,5 +114,12 @@ class ActivityReportBuilder {
             }
         }
         return events
+    }
+
+    // We should be able to use RepositoryId.createFromUrl, but it looks buggy
+    // (first two segments rather than last two)
+    private RepositoryId repoIdFromEvent(Event event) {
+        def segments = event.repo.name.split("/")
+        return RepositoryId.create(segments[0], segments[1])
     }
 }
