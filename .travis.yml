@@ -1,0 +1,8 @@
+language: java
+env:
+  global:
+  - TERM=dumb
+jdk:
+  - openjdk7
+install: true
+script: "./gradlew build"
