@@ -1,16 +1,17 @@
-apply plugin: "ratpack-groovy"
-apply plugin: "idea"
-apply plugin: "project-report"
-
 buildscript {
     repositories {
         jcenter()
         maven { url "http://oss.jfrog.org/repo" }
     }
     dependencies {
-        classpath "io.ratpack:ratpack-gradle:0.9.1"
+        classpath "io.ratpack:ratpack-gradle:0.9.3-SNAPSHOT"
     }
 }
+
+apply plugin: "ratpack-groovy"
+apply plugin: "ratpack-heroku"
+apply plugin: "idea"
+apply plugin: "project-report"
 
 repositories {
     jcenter()
