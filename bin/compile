@@ -55,3 +55,10 @@ export GRADLE_USER_HOME="$CACHE_DIR/.gradle"
 
 rm -rf "$CACHE_DIR/.jdk7"
 cp -r .jdk7 "$CACHE_DIR/.jdk7"
+
+PROFILE_PATH="$BUILD_DIR/.profile.d/ratpack.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo '#!/usr/bin/env bash' >> $PROFILE_PATH
+echo 'echo "Setting environment variables..."' >> $PROFILE_PATH
+echo 'export JAVA_OPTS="-Dfile.encoding=UTF-8 -server -Xmx512m -XX:+UseCompressedOops -Dratpack.port=${PORT}"' >> $PROFILE_PATH
+echo "export JAVA_HOME=\"${BUILD_DIR}/.jdk7\"" >> $PROFILE_PATH
