@@ -26,6 +26,11 @@ dependencies {
     compile "io.ratpack:ratpack-thymeleaf:0.9.1"
     compile "org.eclipse.mylyn.github:org.eclipse.egit.github.core:2.1.5"
 
+    compile "org.webjars:font-awesome:4.0.3"
+    compile "org.webjars:jquery:2.1.0-2"
+    compile "org.webjars:jquery-ui:1.10.3"
+    compile "org.webjars:modernizr:2.6.2-1"
+
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
 
     runtime "ch.qos.logback:logback-classic:1.1.1"

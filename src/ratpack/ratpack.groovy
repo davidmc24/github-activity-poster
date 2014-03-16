@@ -1,6 +1,7 @@
 import app.ActivityReportLoader
 import app.AppModule
 import app.DateRange
+import app.WebJarsHandler
 import ratpack.groovy.Groovy
 import ratpack.thymeleaf.Template
 import ratpack.thymeleaf.ThymeleafModule
@@ -19,6 +20,7 @@ Groovy.ratpack {
             def report = reportLoader.get(dateRange)
             render Template.thymeleafTemplate("index", report: report, month: month)
         }
+        prefix("webjars", new WebJarsHandler())
         
         assets "public"
     }
