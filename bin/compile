@@ -5,6 +5,7 @@
 set -e
 
 BIN_DIR=$(cd $(dirname $0); pwd) # absolute path
+OPT_DIR=$(cd $BIN_DIR/../opt; pwd)
 
 # parse args
 BUILD_DIR=$1
@@ -51,7 +52,7 @@ echo "       ./gradlew clean :installApp"
 export GRADLE_OPTS="-Dfile.encoding=UTF-8 -server -Xmx512m -XX:+UseCompressedOops"
 export GRADLE_USER_HOME="$CACHE_DIR/.gradle"
 
-time ./gradlew clean :installApp
+time ./gradlew clean :installApp -I $OPT_DIR/init.gradle
 
 rm -rf "$CACHE_DIR/.jdk7"
 cp -r .jdk7 "$CACHE_DIR/.jdk7"

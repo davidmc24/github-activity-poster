@@ -1,0 +1,17 @@
+logger.debug("Applying Heroku Gradle Settings")
+allprojects {
+  buildscript {
+    repositories {
+      maven {
+        name "heroku-proxy"
+        url "http://s3pository.heroku.com/jvm"
+      }
+    }
+  }
+  repositories {
+    maven {
+      name "heroku-proxy"
+      url "http://s3pository.heroku.com/jvm"
+    }
+  }
+}
