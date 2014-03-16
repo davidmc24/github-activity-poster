@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
+# bin/release <build-dir>
+
+# parse args
+BUILD_DIR=$1
 
 cat <<EOF
+config_vars:
+  JAVA_HOME="$BUILD_DIR/.jdk7"
+  JAVA_OPTS="-Dfile.encoding=UTF-8 -server -Xmx512m -XX:+UseCompressedOops -Dratpack.port=${PORT}"
 default_process_types:
   web: build/install/github-activity-poster/bin/github-activity-poster
 EOF
